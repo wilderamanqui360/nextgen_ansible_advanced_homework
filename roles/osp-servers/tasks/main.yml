@@ -1,3 +1,48 @@
 ---
-
-# tasks file for osp.servers
+---
+- name: Create OSP Server Instances 
+  os_server:
+    cloud: openstack
+    name: "{{ item.0.name }}"
+    image: "{{ item.0.image }}"
+    key_name: "{{ item.0.key_name }}"
+    flavor: "{{ item.0.flavor }}"
+    security_groups: "{{ item.0.security_group }}"
+    delete_fip: yes
+    wait: no
+    nics:
+      - net-name: int_network
+    meta: "{{ item.1 }}"
+    userdata: |
+      #!/bin/bash
+      curl -o /tmp/openstack.pub http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pub
+      cat /tmp/openstack.pub >> /home/cloud-user/.ssh/authorized_keys
+  with_subelements:
+    - "{{ osp_servers }}"
+    - meta
+      
+- name: Add Floating IP to Servers
+  os_floating_ip:
+    cloud: openstack
+    state: present
+    reuse: yes
+    server: "{{ item.value.name }}"
+    network: ext_network
+    wait: true
+    timeout: 200
+    with_dict: "{{ osp_servers }}"
+                                                               
+- name: Retrieve OpenStack Server Facts
+  os_server_info:
+   cloud: openstack
+  register: result
+      
+- name: Wait for server to be available
+  wait_for:
+    host: "{{ item.public_v4 }}"
+    port: 22
+    search_regex: OpenSSH
+    timeout: 600
+  delegate_to: "{{ inventory_hostname }}"
+  with_items:      
+     - "{{ result.openstack_servers }}"

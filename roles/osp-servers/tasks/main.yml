@@ -1,5 +1,4 @@
 ---
----
 - name: Create OSP Server Instances 
   os_server:
     cloud: openstack

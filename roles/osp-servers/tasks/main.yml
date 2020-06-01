@@ -31,9 +31,9 @@
     network: ext_network
     wait: true
     timeout: 200
-    with_dict: "{{osp_servers}}"
-    tags:
-    - test.servers
+  with_dict: "{{osp_servers}}"
+  tags:
+  - test.servers
                                                                
 - name: Retrieve OpenStack Server Facts
   os_server_info:

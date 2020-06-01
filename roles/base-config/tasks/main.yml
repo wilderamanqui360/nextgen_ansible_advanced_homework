@@ -9,6 +9,9 @@
     backup: yes
 
 - name: enable repos
+  template:
+    src: internal.repo
+    dest: /etc/yum.repos.d/internal.repo
+    mode: u=rw,g=r,o=r
  
-- name: install base tools and packages
 

@@ -36,18 +36,14 @@
      with_items: "{{result.openstack_servers}}"
 
 
-   - name: Check servers are available
-     hosts: apps:appdbs:frontends
-     gather_facts: false
-     tasks:
-     - name: Wait for connection to hosts
-       wait_for_connection:
-         timeout: 600
+   - name: Wait for connection to hosts
+     wait_for_connection:
+       timeout: 600
 
-     - name: Ping hosts
-       ping: {}
-       retries: 10
-       delay: 5
-       register: r_ping
-       until: not r_ping.failed
+   - name: Ping hosts
+     ping: {}
+     retries: 10
+     delay: 5
+     register: r_ping
+     until: not r_ping.failed
 

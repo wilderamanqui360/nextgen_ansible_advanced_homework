@@ -9,6 +9,8 @@
      os_server_action:
        action: start
        server: "{{ item }}"
+     loop: >-
+       {{ result | json_query("openstack_servers[?status=='SHUTOFF'].name") }} 
      loop_control:
        label: "{{ item }}"
 

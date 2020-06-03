@@ -6,9 +6,8 @@
      register: result
 
    - name: Start servers
-     environment:
-       OS_CLIENT_CONFIG_FILE: /etc/openstack/clouds.yaml"
      os_server_action:
+       cloud: openstack
        action: start
        server: "{{ item }}"
      loop: >-

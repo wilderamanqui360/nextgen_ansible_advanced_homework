@@ -28,7 +28,7 @@
       name: "{{ item.public_v4 }}"
       ansible_host: "{{ item.public_v4 }}"
       group: "{{ item.metadata.group }}"
-      ansible_ssh_private_key_file: /root/.ssh/test_id_rsa
+      ansible_ssh_private_key_file: http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pub
       ansible_ssh_user: cloud-user
       ansible_ssh_extra_args: '-o StrictHostKeyChecking=no'
      with_items: "{{result.openstack_servers}}"
@@ -37,7 +37,7 @@
       name: "{{ item.public_v4 }}"
       ansible_host: "{{ item.public_v4 }}"
       group: "{{ item.metadata.deployment_name }}"
-      ansible_ssh_private_key_file: /root/.ssh/authorized_keys
+      ansible_ssh_private_key_file: http://www.opentlc.com/download/ansible_bootcamp/openstack_keys/openstack.pub
       ansible_ssh_user: cloud-user
       ansible_ssh_extra_args: '-o StrictHostKeyChecking=no'
      with_items: "{{result.openstack_servers}}"

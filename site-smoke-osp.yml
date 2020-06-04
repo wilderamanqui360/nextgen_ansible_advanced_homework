@@ -20,9 +20,14 @@
     with_items:
        - "{{ openstack_information.openstack_servers }}"
     register: webpage
+
+  - debug: 
+      var: webpage
   
-- name: Fail if 'Ansible has done its job' is not in the page content
+  - name: Fail if 'Ansible has done its job' is not in the page content
     fail:
-    when: "'Ansible has done its job' not in webpage.results[0].content"
+      msg: "No existe"
+    when: 
+      -"'Ansible has done its job' not in webpage.results[0].content"
     tags:
       - osp.smoke

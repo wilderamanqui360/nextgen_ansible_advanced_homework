@@ -34,6 +34,16 @@
   with_dict: "{{osp_servers}}"
   tags:
   - test.servers
+
+- name: Start servers
+  os_server_action:
+    cloud: openstack
+    action: start
+    server: "{{ item }}"
+  loop: >-
+    {{ result | json_query("openstack_servers[?status=='SHUTOFF'].name") }} 
+  loop_control:
+    label: "{{ item }}"
                                                                
 - name: Retrieve OpenStack Server Facts
   os_server_info:

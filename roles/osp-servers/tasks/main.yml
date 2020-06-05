@@ -35,6 +35,12 @@
   tags:
   - test.servers
 
+                                                               
+- name: Retrieve OpenStack Server Facts
+  os_server_info:
+   cloud: openstack
+  register: result
+
 - name: Start servers
   os_server_action:
     cloud: openstack
@@ -44,11 +50,6 @@
     {{ result | json_query("openstack_servers[?status=='SHUTOFF'].name") }} 
   loop_control:
     label: "{{ item }}"
-                                                               
-- name: Retrieve OpenStack Server Facts
-  os_server_info:
-   cloud: openstack
-  register: result
 
 - name: Wait for server to be available
   wait_for:

@@ -40,16 +40,6 @@
    cloud: openstack
   register: result
 
-- name: Start servers
-  os_server_action:
-    cloud: openstack
-    action: start
-    server: "{{ item }}"
-  loop: >-
-    {{ result | json_query("openstack_servers[?status=='SHUTOFF'].name") }} 
-  loop_control:
-    label: "{{ item }}"
-      
 - name: Wait for server to be available
   wait_for:
     host: "{{ item.public_v4 }}"
